@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sanjana Gaikwad | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f7f5f2; --bg2: #eeeae4;
+      --text: #1a1814; --text-muted: #6b6560;
+      --accent: #b5723a; --accent-light: #d9a876;
+      --card: #ffffff; --border: #ddd8d0;
+      --nav-bg: rgba(247,245,242,0.92);
+    }
+    [data-theme="dark"] {
+      --bg: #141210; --bg2: #1e1c18;
+      --text: #f0ece5; --text-muted: #9e9890;
+      --accent: #d9a876; --accent-light: #b5723a;
+      --card: #1e1c18; --border: #2e2b25;
+      --nav-bg: rgba(20,18,16,0.92);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); transition: background 0.4s, color 0.4s; overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    #progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); width: 0%; z-index: 9999; transition: width 0.1s; }
+
+    nav { position: fixed; top: 0; width: 100%; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 60px; transition: background 0.4s; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.04em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav-links a { color: var(--text-muted); transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+    .theme-toggle { background: none; border: 1px solid var(--border); border-radius: 50px; padding: 5px 14px; cursor: pointer; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 1.5px; background: var(--text); transition: all 0.3s; }
+
+    section { padding: 100px 8%; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; line-height: 1.15; color: var(--text); margin-bottom: 1rem; }
+    .divider { width: 40px; height: 1px; background: var(--accent); margin: 1.5rem 0 3rem; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* HOME */
+    #home { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5%; padding-top: 120px; background: var(--bg); }
+    .hero-text { animation: fadeUp 0.9s ease forwards; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
+    .hero-greeting { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.05; }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-sub { margin-top: 1.2rem; font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 440px; }
+    .hero-prn { margin-top: 0.8rem; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.1em; }
+    .hero-btns { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; padding: 12px 28px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--text); padding: 11px 28px; border: 1px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-image-wrap { position: relative; animation: fadeUp 0.9s 0.2s ease both; }
+    .hero-image-wrap::before { content: ''; position: absolute; top: -20px; right: -20px; width: 100%; height: 100%; border: 1px solid var(--accent); opacity: 0.35; z-index: 0; }
+    .hero-img { position: relative; z-index: 1; width: 100%; max-width: 400px; aspect-ratio: 3/4; object-fit: cover; object-position: top; filter: grayscale(10%); }
+    .hero-img-placeholder { position: relative; z-index: 1; width: 100%; max-width: 400px; aspect-ratio: 3/4; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--border); }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5%; align-items: start; }
+    .about-card { background: var(--card); border: 1px solid var(--border); padding: 2rem; margin-bottom: 1.5rem; }
+    .about-card h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--accent); }
+    .about-card p, .about-card li { font-size: 0.92rem; color: var(--text-muted); line-height: 1.75; }
+    .about-card ul { padding-left: 1.1rem; }
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+    .skill-tag { font-size: 0.75rem; padding: 4px 12px; border: 1px solid var(--border); color: var(--text-muted); letter-spacing: 0.05em; }
+
+    /* ACHIEVEMENTS */
+    #achievements { background: var(--bg); }
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .cert-card { background: var(--card); border: 1px solid var(--border); padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
+    .cert-card::after { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent); opacity: 0; transition: opacity 0.3s; }
+    .cert-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+    .cert-card:hover::after { opacity: 1; }
+    .cert-icon { font-size: 1.6rem; margin-bottom: 0.8rem; }
+    .cert-card h4 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .cert-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .cert-meta { margin-top: 0.8rem; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+    .cert-link { display: inline-block; margin-top: 0.6rem; font-size: 0.75rem; color: var(--accent); border-bottom: 1px solid var(--accent-light); }
+
+    /* PROJECTS */
+    #projects { background: var(--bg2); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.8rem; }
+    .project-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+    .project-img { width: 100%; height: 190px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--border); overflow: hidden; }
+    .project-img img { width: 100%; height: 100%; object-fit: cover; }
+    .project-body { padding: 1.5rem; }
+    .project-tag { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .project-card h4 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .project-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.65; }
+    .project-techs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .tech-badge { font-size: 0.7rem; padding: 3px 10px; background: var(--bg2); border: 1px solid var(--border); color: var(--text-muted); }
+
+    /* GALLERY */
+    #gallery { background: var(--bg); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .gallery-item { aspect-ratio: 1; overflow: hidden; cursor: pointer; position: relative; background: var(--bg2); border: 1px solid var(--border); transition: border-color 0.2s; }
+    .gallery-item:hover { border-color: var(--accent); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-overlay { position: absolute; inset: 0; background: rgba(181,114,58,0); display: flex; align-items: flex-end; padding: 0.8rem; transition: background 0.3s; }
+    .gallery-item:hover .gallery-overlay { background: rgba(181,114,58,0.35); }
+    .gallery-label { color: #fff; font-size: 0.72rem; letter-spacing: 0.06em; opacity: 0; transform: translateY(6px); transition: all 0.3s; text-transform: uppercase; }
+    .gallery-item:hover .gallery-label { opacity: 1; transform: translateY(0); }
+    .gallery-cert { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; text-align: center; }
+    .gallery-cert-icon { font-size: 2rem; }
+    .gallery-cert small { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; }
+    .gallery-hint { margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted); }
+    .gallery-hint code { background: var(--bg2); padding: 2px 6px; border: 1px solid var(--border); font-size: 0.75rem; }
+
+    /* LIGHTBOX */
+    #lightbox { display: none; position: fixed; inset: 0; z-index: 9000; background: rgba(10,8,6,0.93); align-items: center; justify-content: center; }
+    #lightbox.open { display: flex; }
+    #lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+    #lightbox-close { position: absolute; top: 24px; right: 30px; font-size: 2.5rem; color: #fff; cursor: pointer; font-weight: 200; line-height: 1; }
+    #lightbox-caption { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: #ccc; font-size: 0.82rem; letter-spacing: 0.06em; white-space: nowrap; }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+    .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 5%; align-items: start; }
+    .contact-info > p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link { display: flex; align-items: center; gap: 0.9rem; padding: 1rem 1.2rem; border: 1px solid var(--border); background: var(--card); transition: border-color 0.2s, transform 0.2s; }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+    .link-icon { font-size: 1.2rem; }
+    .link-text { font-size: 0.78rem; color: var(--text-muted); }
+    .link-val { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-field { border: 1px solid var(--border); background: var(--card); padding: 0.9rem 1.1rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--text); outline: none; width: 100%; transition: border-color 0.2s; }
+    .form-field:focus { border-color: var(--accent); }
+    textarea.form-field { resize: vertical; min-height: 120px; }
+    .form-field::placeholder { color: var(--text-muted); }
+
+    footer { background: var(--bg); border-top: 1px solid var(--border); text-align: center; padding: 2.5rem 5%; font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; }
+    footer span { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; padding: 1.5rem 8%; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      #home { grid-template-columns: 1fr; padding-top: 100px; text-align: center; }
+      .hero-image-wrap { order: -1; display: flex; justify-content: center; }
+      .hero-img, .hero-img-placeholder { max-width: 220px; }
+      .hero-btns { justify-content: center; }
+      .hero-sub { margin: 1.2rem auto 0; }
+      .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
+      section { padding: 80px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="lightbox-close" onclick="closeLightbox()">&#215;</span>
+  <img id="lightbox-img" src="" alt=""/>
+  <div id="lightbox-caption"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">S<span>.</span>Gaikwad</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☽ Dark</button>
+    <div class="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <div class="hero-text">
+    <p class="hero-greeting">✦ Welcome to my portfolio</p>
+    <h1 class="hero-name">Sanjana<br><em>Gaikwad</em></h1>
+    <p class="hero-sub">Computer Engineering student passionate about web development, programming, and building intelligent solutions that make a real-world impact.</p>
+    <p class="hero-prn">PRN: SCFU125075 &nbsp;·&nbsp; MIT Vishwaprayag University</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-image-wrap">
+    <img class="hero-img" src="pic.jpg" alt="Sanjana Gaikwad"
+      onerror="this.style.display='none';document.getElementById('hero-ph').style.display='flex'"/>
+    <div class="hero-img-placeholder" id="hero-ph" style="display:none;">👩‍💻</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-label">Who I am</p>
+    <h2 class="section-title">About Me</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="about-grid">
+    <div>
+      <div class="about-card reveal">
+        <h4>🎓 Education</h4>
+        <p><strong>B.Tech in Computer Engineering</strong><br>MIT Vishwaprayag University, Pune<br>PRN: SCFU125075</p>
+      </div>
+      <div class="about-card reveal">
+        <h4>🎯 Goals</h4>
+        <p>To become a skilled software developer and contribute to innovative technology solutions. I aim to specialize in AI-driven web applications and IoT systems, bridging the gap between hardware and intelligent software.</p>
+      </div>
+      <div class="about-card reveal">
+        <h4>💡 Interests</h4>
+        <ul>
+          <li>Web Development (HTML, CSS, JavaScript)</li>
+          <li>Artificial Intelligence &amp; Machine Learning</li>
+          <li>Internet of Things (IoT)</li>
+          <li>Discrete Mathematics &amp; Algorithms</li>
+          <li>MATLAB &amp; Scientific Computing</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="about-card reveal">
+        <h4>💪 Strengths</h4>
+        <ul>
+          <li>Problem-solving &amp; analytical thinking</li>
+          <li>Creative approach to technical challenges</li>
+          <li>Continuous learner with strong self-motivation</li>
+          <li>Team collaboration and communication</li>
+          <li>Attention to detail in project execution</li>
+        </ul>
+      </div>
+      <div class="about-card reveal">
+        <h4>🛠 Skills &amp; Tools</h4>
+        <div class="skills-wrap">
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">MATLAB</span>
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">IoT</span>
+          <span class="skill-tag">Git &amp; GitHub</span>
+          <span class="skill-tag">Graph Theory</span>
+          <span class="skill-tag">Number Theory</span>
+          <span class="skill-tag">Cryptography</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="reveal">
+    <p class="section-label">Recognition &amp; Credentials</p>
+    <h2 class="section-title">Achievements &amp; Certificates</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="cert-grid">
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🏅</div>
+      <h4>Discrete Mathematics Specialization</h4>
+      <p>Completed the full 5-course specialization from UC San Diego — covering combinatorics, graph theory, number theory, and cryptography.</p>
+      <p class="cert-meta">Coursera · UC San Diego · Apr 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/specialization/NHSVO10P6TKC" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">📐</div>
+      <h4>Mathematical Thinking in Computer Science</h4>
+      <p>Covered fundamental mathematical concepts for software engineers — logic, proofs, and discrete structures essential for technical interviews.</p>
+      <p class="cert-meta">Coursera · UC San Diego · Apr 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/MLP0IF557U5T" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🎲</div>
+      <h4>Combinatorics and Probability</h4>
+      <p>Mastered counting techniques, probability theory, and combinatorial problem-solving used in algorithms and data science.</p>
+      <p class="cert-meta">Coursera · UC San Diego · Apr 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/UX0PTC33WLLF" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🔗</div>
+      <h4>Introduction to Graph Theory</h4>
+      <p>Explored graph structures, traversal algorithms, connectivity, and real-world applications in network analysis and computer science.</p>
+      <p class="cert-meta">Coursera · UC San Diego · Apr 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/5C2Z4BW5Q4X9" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🔐</div>
+      <h4>Number Theory and Cryptography</h4>
+      <p>Studied modular arithmetic, RSA encryption, and the mathematical foundations underlying modern cryptographic systems.</p>
+      <p class="cert-meta">Coursera · UC San Diego · Apr 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/NWB9NJF4GGXU" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">📦</div>
+      <h4>Delivery Problem (Algorithms)</h4>
+      <p>Tackled the classical NP-hard delivery/routing problem using algorithmic approaches and heuristic methods from UC San Diego.</p>
+      <p class="cert-meta">Coursera · UC San Diego · Apr 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/GS9IH5Q85314" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">📊</div>
+      <h4>Introduction to Programming with MATLAB</h4>
+      <p>Gained proficiency in MATLAB for scientific computing, numerical methods, and data visualization through Vanderbilt University.</p>
+      <p class="cert-meta">Coursera · Vanderbilt University · Dec 2025</p>
+      <a class="cert-link" href="https://coursera.org/verify/0SNKMNBKNKAU" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">⚗️</div>
+      <h4>Revisiting Chemistry (ACE Preparatory)</h4>
+      <p>Completed preparatory chemistry course (ACEAS1201) through MIT Vishwaprayag University, strengthening foundational science knowledge.</p>
+      <p class="cert-meta">Coursera · MIT Vishwaprayag University · Feb 2026</p>
+      <a class="cert-link" href="https://coursera.org/verify/3AU7T5N61OQQ" target="_blank">Verify Certificate ↗</a>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🤖</div>
+      <h4>Yuva AI Certification</h4>
+      <p>Completed AI literacy and foundational machine learning training through the Yuva AI programme, building core knowledge in artificial intelligence concepts.</p>
+      <p class="cert-meta">Yuva AI Programme · 2025</p>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🌐</div>
+      <h4>Cisco NetAcad Certification</h4>
+      <p>Completed Cisco Networking Academy coursework covering networking fundamentals, IP addressing, and network security basics.</p>
+      <p class="cert-meta">Cisco NetAcad · 2025</p>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🧠</div>
+      <h4>AI4A Project</h4>
+      <p>Participated in the AI for All initiative — built a symptoms-based hospital recommendation system using AI principles and human-centered design.</p>
+      <p class="cert-meta">AI4A Programme · 2025</p>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">⚙️</div>
+      <h4>ACE Project</h4>
+      <p>Developed technical and teamwork skills through the Applied Computer Engineering project, working on practical hardware-software solutions collaboratively.</p>
+      <p class="cert-meta">ACE Programme · 2025</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-label">What I've built</p>
+    <h2 class="section-title">Projects</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-img">🌬️</div>
+      <div class="project-body">
+        <p class="project-tag">IoT · Hardware</p>
+        <h4>Smart IoT Ventilation System</h4>
+        <p>An IoT-based system using air quality sensors to monitor indoor environments and automatically control ventilation fans, maintaining healthy air in real time.</p>
+        <div class="project-techs">
+          <span class="tech-badge">IoT Sensors</span>
+          <span class="tech-badge">Arduino</span>
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">Air Quality</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img">🏥</div>
+      <div class="project-body">
+        <p class="project-tag">AI · Web · AI4A</p>
+        <h4>Hospital Recommendation System</h4>
+        <p>An AI-powered web app where patients enter symptoms and receive recommendations for the most suitable hospital or specialist — built as part of the AI4A initiative.</p>
+        <div class="project-techs">
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">AI / ML</span>
+          <span class="tech-badge">HTML/CSS</span>
+          <span class="tech-badge">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img">💻</div>
+      <div class="project-body">
+        <p class="project-tag">Web Development</p>
+        <h4>Personal Digital Portfolio</h4>
+        <p>This portfolio — built from scratch with HTML, CSS, and JavaScript — features dark mode toggle, scroll animations, a gallery lightbox, and a fully responsive design.</p>
+        <div class="project-techs">
+          <span class="tech-badge">HTML5</span>
+          <span class="tech-badge">CSS3</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">GitHub Pages</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img">⚙️</div>
+      <div class="project-body">
+        <p class="project-tag">ACE · Engineering</p>
+        <h4>ACE Engineering Project</h4>
+        <p>A collaborative applied engineering project involving hardware-software integration, practical problem solving under real engineering constraints, and team-based delivery.</p>
+        <div class="project-techs">
+          <span class="tech-badge">Engineering</span>
+          <span class="tech-badge">Teamwork</span>
+          <span class="tech-badge">Hardware</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="reveal">
+    <p class="section-label">Memories &amp; Credentials</p>
+    <h2 class="section-title">Gallery</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="gallery-grid">
+
+    <div class="gallery-item reveal" onclick="openLightbox('pic.jpg','Profile — Sanjana Gaikwad')">
+      <img src="pic.jpg" alt="Sanjana" onerror="this.parentElement.classList.add('gallery-cert');this.remove();this.parentElement.innerHTML='<div class=gallery-cert-icon>📷</div><small>Profile Photo</small>'"/>
+      <div class="gallery-overlay"><span class="gallery-label">Profile</span></div>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/specialization/NHSVO10P6TKC','_blank')">
+      <div class="gallery-cert-icon">🏅</div>
+      <small>Discrete Math Specialization</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/MLP0IF557U5T','_blank')">
+      <div class="gallery-cert-icon">📐</div>
+      <small>Mathematical Thinking in CS</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/UX0PTC33WLLF','_blank')">
+      <div class="gallery-cert-icon">🎲</div>
+      <small>Combinatorics &amp; Probability</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/5C2Z4BW5Q4X9','_blank')">
+      <div class="gallery-cert-icon">🔗</div>
+      <small>Graph Theory</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/NWB9NJF4GGXU','_blank')">
+      <div class="gallery-cert-icon">🔐</div>
+      <small>Number Theory &amp; Cryptography</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/GS9IH5Q85314','_blank')">
+      <div class="gallery-cert-icon">📦</div>
+      <small>Delivery Problem</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/0SNKMNBKNKAU','_blank')">
+      <div class="gallery-cert-icon">📊</div>
+      <small>MATLAB Programming</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal" onclick="window.open('https://coursera.org/verify/3AU7T5N61OQQ','_blank')">
+      <div class="gallery-cert-icon">⚗️</div>
+      <small>Chemistry ACE Prep</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal">
+      <div class="gallery-cert-icon">🤖</div>
+      <small>Yuva AI Certificate</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal">
+      <div class="gallery-cert-icon">🌐</div>
+      <small>Cisco NetAcad</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal">
+      <div class="gallery-cert-icon">🧠</div>
+      <small>AI4A Project</small>
+    </div>
+
+    <div class="gallery-item gallery-cert reveal">
+      <div class="gallery-cert-icon">⚙️</div>
+      <small>ACE Project</small>
+    </div>
+
+  </div>
+  <p class="gallery-hint">
+    💡 Add project screenshots &amp; event photos to <code>assets/images/</code> in your GitHub repo — they'll appear here as clickable image tiles.
+  </p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-label">Let's connect</p>
+    <h2 class="section-title">Contact Me</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-info reveal">
+      <p>I'm always open to new opportunities, collaborations, or just a good conversation about technology. Feel free to reach out!</p>
+      <div class="contact-links">
+        <div class="contact-link">
+          <span class="link-icon">📧</span>
+          <div>
+            <div class="link-text">Email</div>
+            <div class="link-val">sanjanagaikwad340@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-link">
+          <span class="link-icon">📱</span>
+          <div>
+            <div class="link-text">Phone</div>
+            <div class="link-val">8999691239</div>
+          </div>
+        </div>
+        <a class="contact-link" href="https://github.com/SanjanaGaikwad75" target="_blank">
+          <span class="link-icon">🐱</span>
+          <div>
+            <div class="link-text">GitHub</div>
+            <div class="link-val">github.com/SanjanaGaikwad75</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<footer>
+  <p>Designed &amp; Built by <span>Sanjana Samadhan Gaikwad</span> &nbsp;·&nbsp; PRN: SCFU125075 &nbsp;·&nbsp; © 2026</p>
+</footer>
+
+<script>
+  /* Dark / Light toggle */
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    btn.textContent = isDark ? '☽ Dark' : '☀ Light';
+  }
+
+  /* Mobile nav */
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'))
+  );
+
+  /* Scroll progress bar */
+  window.addEventListener('scroll', () => {
+    const s = window.scrollY, t = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (s / t * 100) + '%';
+  });
+
+  /* Reveal on scroll */
+  const io = new IntersectionObserver(entries =>
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* Lightbox */
+  function openLightbox(src, caption) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption || '';
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+
+</script>
+</body>
+</html>
